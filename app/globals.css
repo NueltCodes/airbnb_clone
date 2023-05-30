@@ -7,3 +7,25 @@ body,
 :root {
   height: 100%;
 }
+
+.scrollBar-hidden {
+  /* Set a fixed height and width for the container */
+  /* height: 300px;
+  width: 300px; */
+  /* Set overflow to auto to enable scrolling */
+  /* overflow: auto; */
+  /* Hide the scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.scrollBar-hidden::-webkit-scrollbar {
+  /* Customize the scrollbar width and color */
+  width: 6px;
+  background-color: transparent;
+}
+
+.scrollBar-hidden::-webkit-scrollbar-thumb {
+  /* Customize the scrollbar thumb color */
+  background-color: transparent;
+}

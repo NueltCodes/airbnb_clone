@@ -67,9 +67,16 @@ const Modal: React.FC<ModalProps> = ({
   }
 
   return (
+    // Note where ever you see "scrollBar-hidden" note that it is a class created in the globalcss file to hide scroll bar
     <>
-      <div className="flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-neutral-800/70">
-        <div className="relative w-full md:w-4/6 lg:w-3/6 xl:w-2/5 my-6 mx-auto h-full lg:h-auto md:h-auto">
+      <div className="flex justify-center items-center overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none bg-neutral-800/70">
+        <div
+          className={`relative w-full md:w-4/6 lg:w-3/6 xl:w-2/5 my-6 mx-auto h-full lg:h-[90%] md:h-[90%] overflow-y-scroll bg-white rounded-lg scrollBar-hidden translate duration-300   ${
+            showModal
+              ? "translate-y-0 opacity-100"
+              : "translate-y-full opacity-0"
+          }`}
+        >
           {/* content */}
           <div
             className={`translate duration-300 h-full ${
@@ -78,15 +85,19 @@ const Modal: React.FC<ModalProps> = ({
                 : "translate-y-full opacity-0"
             }`}
           >
-            <div className="w-full h-full translate lg:h-auto md:h-auto border-0 rounded-lg shadow-lg relative flex flex-col bg-white outline-none focus:outline-none">
+            <div
+              className="w-full min-h-min 
+            translate lg:h-auto md:h-auto border-0 shadow-lg relative flex flex-col bg-white outline-none focus:outline-none"
+            >
               <div className="flex items-center p-6 rounded-t relative border-b-[1px]">
-                <button
-                  onClick={handleClose}
-                  className="p-1 border-0 hover:opacity-70 transition absolute left-0"
-                >
-                  <IoMdClose />
-                </button>
-                <div className="text-lg font-semibold">{title}</div>
+                <div onClick={handleClose}>
+                  <button className="p-1 border-0 hover:opacity-70 transition absolute left-0">
+                    <IoMdClose />
+                  </button>
+                  <div className="text-lg font-semibold cursor-pointer">
+                    {title}
+                  </div>
+                </div>
               </div>
               {/* body */}
               <div className="relative p-6 flex-auto">{body}</div>
@@ -107,6 +118,7 @@ const Modal: React.FC<ModalProps> = ({
                     onClick={handleSubmit}
                   />
                 </div>
+                {footer}
               </div>
             </div>
           </div>
@@ -117,3 +129,6 @@ const Modal: React.FC<ModalProps> = ({
 };
 
 export default Modal;
+
+// {/* <div className="flex justify-center items-center overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none bg-neutral-800/70">
+// <div className="relative w-full md:w-4/6 lg:w-3/6 xl:w-2/5 my-6 mx-auto h-full lg:h-[90%] md:h-[90%] ">  */}
