@@ -6,32 +6,45 @@ import Avatar from "../Avatar";
 import { useRouter } from "next/navigation";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
+import useRentModal from "@/app/hooks/useRentModal";
+import { signOut } from "next-auth/react";
+import { SafeUser } from "@/app/types";
+interface UserMenuProps {
+  currentUser?: SafeUser | null;
+}
 
-const UserMenu = () => {
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const router = useRouter();
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
+  const rentModal = useRentModal();
   const [open, setOpen] = useState(false);
 
-  const toggleOpen = useCallback(() => {
-    setOpen((value) => !value);
-  }, []);
+  const onRent = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    rentModal.onOpen();
+  }, [currentUser, loginModal, rentModal]);
 
   return (
     <div className="relative">
       <div className="flex items-center gap-3">
         <div
-          onClick={() => {}}
+          onClick={onRent}
           className="hidden md:block font-semibold text-sm py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
         >
           Airbnb your home
         </div>
         <div
-          onClick={() => toggleOpen()}
+          onClick={() => setOpen((value) => !value)}
           className="flex items-center gap-3 rounded-full cursor-pointer p-4 md:py-1 md:px-2 border-neutral-200 border-[1px] transition hover:shadow-sm"
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar />
+            <Avatar src={currentUser?.image} />
           </div>
         </div>
       </div>
@@ -51,28 +64,22 @@ const UserMenu = () => {
           "
         >
           <div className="flex flex-col cursor-pointer">
-            {/* {currentUser ? ( */}
-            <>
-              <MenuItem label="Login" onClick={() => router.push("/trips")} />
-              <MenuItem label="Sign up" onClick={registerModal.onOpen} />
-              {/* <MenuItem
-                label="My trips"
-                onClick={() => router.push("/trips")}
-              />
-              <MenuItem
-                label="My favorites"
-                onClick={() => router.push("/favorites")}
-              />
-              <MenuItem
-                label="My reservations"
-                onClick={() => router.push("/reservations")}
-              />
-              <MenuItem
-                label="My properties"
-                onClick={() => router.push("/properties")}
-              /> */}
-            </>
-            {/* )} */}
+            {currentUser ? (
+              <>
+                <MenuItem label="My trips" onClick={() => {}} />
+                <MenuItem label="My favourites" onClick={() => {}} />
+                <MenuItem label="My Reservation" onClick={() => {}} />
+                <MenuItem label="my properties" onClick={() => {}} />
+                <MenuItem label="Airbnb my home" onClick={onRent} />
+                <hr />
+                <MenuItem label="Logout" onClick={() => signOut()} />
+              </>
+            ) : (
+              <>
+                <MenuItem label="Login" onClick={loginModal.onOpen} />
+                <MenuItem label="Sign up" onClick={registerModal.onOpen} />
+              </>
+            )}
           </div>
         </div>
       )}

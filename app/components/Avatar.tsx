@@ -2,11 +2,25 @@
 import Image from "next/image";
 import React from "react";
 import { RxPerson } from "react-icons/rx";
-const Avatar = () => {
+
+interface AvatarProps {
+  src?: string | null | undefined;
+}
+
+const Avatar: React.FC<AvatarProps> = ({ src }) => {
   return (
     <div>
-      <RxPerson />
-      {/* <Image src='/images/placeholder.jpg' alt="" className="rounded-full" height="30" width='30'/> */}
+      {src ? (
+        <Image
+          src={src}
+          alt="Profile Image"
+          className="rounded-full"
+          height="30"
+          width="30"
+        />
+      ) : (
+        <RxPerson />
+      )}
     </div>
   );
 };
