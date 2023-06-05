@@ -28,7 +28,7 @@ export const categories = [
   {
     label: "Windmills",
     icon: GiWindmill,
-    description: "This property is has windmills!",
+    description: "This property has windmills!",
   },
   {
     label: "Modern",
@@ -43,7 +43,7 @@ export const categories = [
   {
     label: "Pools",
     icon: TbPool,
-    description: "This is property has a beautiful pool!",
+    description: "This property has a beautiful pool!",
   },
   {
     label: "Islands",

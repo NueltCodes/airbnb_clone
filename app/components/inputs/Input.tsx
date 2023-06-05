@@ -1,27 +1,41 @@
 "use client";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import {
+  FieldErrors,
+  FieldValues,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form";
 import { BiDollar } from "react-icons/bi";
 
 interface InputProps {
   id: string;
-  label: string;
-  type?: string;
+  label?: string;
+  type?: string | number;
   disabled?: boolean;
+  text?: boolean;
+  textarea?: boolean;
   formatPrice?: boolean;
   required?: boolean;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
+  watch?: UseFormWatch<FieldValues>;
+  setValue?: UseFormSetValue<FieldValues>;
 }
 
 const Input: React.FC<InputProps> = ({
   id,
   label,
-  type = "text",
+  type,
   disabled,
+  text,
   formatPrice,
   register,
   required,
   errors,
+  watch,
+  setValue,
+  textarea,
 }) => {
   return (
     <div className="w-full relative">
@@ -32,22 +46,55 @@ const Input: React.FC<InputProps> = ({
               absolute top-5 left-2"
         />
       )}
-      <input
-        id={id}
-        disabled={disabled}
-        {...register(id, { required })}
-        placeholder=" "
-        type={type}
-        className={`
-            peer w-full p-4 pt-7 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
-            ${formatPrice ? "pl-9" : "pl-4"}
-            ${
-              errors[id]
-                ? "border-rose-500 focus:border-rose-500"
-                : "border-neutral-300 focus:border-black"
-            }
-          `}
-      />
+
+      {textarea ? (
+        <div>
+          <label
+            className={` pb-1  ${
+              errors[id] ? "text-rose-500" : "text-zinc-400"
+            }`}
+          >
+            Description <span className="text-red-500">*</span>
+          </label>
+          <textarea
+            id={id}
+            cols="30"
+            rows="8"
+            {...register(id, { required })}
+            name={id}
+            defaultValue={watch ? watch(id) : ""}
+            className={`
+             peer w-full p-4 pt-7 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
+             ${formatPrice ? "pl-9" : "pl-4"}
+             ${
+               errors[id]
+                 ? "border-rose-500 focus:border-rose-500"
+                 : "border-neutral-300 focus:border-black"
+             }
+           `}
+            onChange={(e) => setValue?.(id, e.target.value)}
+            placeholder="Enter your product description..."
+          ></textarea>
+        </div>
+      ) : (
+        <input
+          id={id}
+          disabled={disabled}
+          {...register(id, { required })}
+          placeholder=" "
+          type={type === "number" ? "number" : "text"}
+          className={`
+             peer w-full p-4 pt-7 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
+             ${formatPrice ? "pl-9" : "pl-4"}
+             ${
+               errors[id]
+                 ? "border-rose-500 focus:border-rose-500"
+                 : "border-neutral-300 focus:border-black"
+             }
+           `}
+        />
+      )}
+
       <label
         className={`
             absolute text-md duration-150 transform -translate-y-3 top-5 z-10 

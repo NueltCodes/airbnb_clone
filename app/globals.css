@@ -8,6 +8,13 @@ body,
   height: 100%;
 }
 
+.leaflet-buttom,
+.leaflet-control,
+.leaflet-pane,
+.leaflet-top {
+  z-index: 0 !important;
+}
+
 .scrollBar-hidden {
   /* Set a fixed height and width for the container */
   /* height: 300px;

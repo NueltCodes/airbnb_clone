@@ -13,16 +13,19 @@ import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
 import Button from "../Button";
+import { useRouter } from "next/navigation";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FieldValues>({
     defaultValues: {
       name: "",
@@ -38,6 +41,8 @@ const RegisterModal = () => {
       .post("/api/register", data)
       .then(() => {
         toast.success("Registered!");
+        reset();
+        router.refresh();
         registerModal.onClose();
       })
       .catch((error) => {

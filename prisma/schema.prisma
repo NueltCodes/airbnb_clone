@@ -55,9 +55,15 @@ model Listing {
   roomCount Int
   bathroomCount Int
   guestCount Int
+  checkOut String
+  checkIn String
   locationValue String
   userId String @db.ObjectId
   price Int
+   perks         String[]
+  amenities      String[]
+  safetyGuide    String[]
+  otherSpace     String[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]
