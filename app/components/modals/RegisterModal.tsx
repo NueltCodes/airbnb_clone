@@ -40,13 +40,16 @@ const RegisterModal = () => {
     axios
       .post("/api/register", data)
       .then(() => {
-        toast.success("Registered!");
+        toast.success("Account successfully created!");
         reset();
         router.refresh();
         registerModal.onClose();
+        loginModal.onOpen();
       })
       .catch((error) => {
-        toast.error("error");
+        toast.error(
+          "you have created an account with this email before, either with your google or github account!"
+        );
       })
       .finally(() => {
         setIsLoading(false);

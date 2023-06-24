@@ -193,16 +193,6 @@ const RentModal = () => {
     );
   }
 
-  // const handleCheckInChange = (value: string) => {
-  //   setCheckInTime(value);
-  //   setCustomValue("checkIn", value);
-  // };
-
-  // const handleCheckOutChange = (value: string) => {
-  //   setCheckOutTime(value);
-  //   setCustomValue("checkOut", value);
-  // };
-
   if (step === STEPS.INFO) {
     bodyContent = (
       <div className="flex flex-col gap-8">

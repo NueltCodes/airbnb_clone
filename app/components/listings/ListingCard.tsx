@@ -2,23 +2,20 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { createElement, useCallback, useMemo } from "react";
 import { format } from "date-fns";
 
 import useCountries from "@/app/hooks/useCountries";
-import {
-  SafeListing,
-  //   SafeReservation,
-  SafeUser,
-} from "@/app/types";
+import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 
 import HeartButton from "../HeartButton";
 import Button from "../Button";
 import ClientOnly from "../ClientOnly";
+import { categories } from "../navbar/Categories";
 
 interface ListingCardProps {
   data: SafeListing;
-  reservation?: Reservation;
+  reservation?: SafeReservation;
   onAction?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: string;
@@ -37,8 +34,13 @@ const ListingCard: React.FC<ListingCardProps> = ({
 }) => {
   const router = useRouter();
   const { getByValue } = useCountries();
-
   const location = getByValue(data.locationValue);
+
+  const category = useMemo(() => {
+    return categories.find((item) => item.label === data.category);
+  }, [data.category]);
+
+  const Icon = category?.icon ? createElement(category.icon) : null;
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -81,7 +83,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
         <div
           className="
             aspect-square 
-            w-full 
+            w-full sm:h-full 
+            h-[40vh]
             relative 
             overflow-hidden 
             rounded-xl
@@ -112,11 +115,12 @@ const ListingCard: React.FC<ListingCardProps> = ({
         <div className="font-semibold text-lg">
           {location?.region}, {location?.label}
         </div>
-        <div className="font-light text-neutral-500">
+        <div className="font-light text-neutral-500 flex items-center gap-1">
+          {!reservationDate && <span className="w-auto">{Icon}</span>}
           {reservationDate || data.category}
         </div>
         <div className="flex items-center gap-1">
-          <div className="font-semibold">$ {price}</div>
+          <div className="font-semibold">${price}</div>
           {!reservation && <div className="font-light">night</div>}
         </div>
         {onAction && actionLabel && (

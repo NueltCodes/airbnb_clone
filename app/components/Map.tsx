@@ -30,7 +30,7 @@ const Map: React.FC<MapProps> = ({ center }) => {
       center={(center as L.LatLngExpression) || [51, -0.09]}
       zoom={center ? 4 : 2}
       scrollWheelZoom={false}
-      className="h-[35vh] rounded-lg"
+      className="w-[100%] h-[50vh] rounded-lg"
     >
       <TileLayer url={url} attribution={attribution} />
       {center && <Marker position={center as L.LatLngExpression} />}

@@ -5,13 +5,15 @@ import { IoMdClose } from "react-icons/io";
 import Button from "../Button";
 
 interface ModalProps {
+  dontShowButton?: boolean;
   open?: boolean;
-  onClose: () => void;
-  onSubmit: () => void;
+  payment?: boolean;
+  onClose: (e: any) => void;
+  onSubmit?: () => void;
   title?: string;
   body?: React.ReactElement;
   footer?: React.ReactElement;
-  actionLabel: string;
+  actionLabel?: string;
   disabled?: boolean;
   secondaryAction?: () => void;
   secondaryActionLabel?: string;
@@ -19,9 +21,11 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({
   open,
+  dontShowButton,
   onClose,
   onSubmit,
   title,
+  payment,
   body,
   actionLabel,
   footer,
@@ -69,7 +73,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     // Note where ever you see "scrollBar-hidden" note that it is a class created in the globalcss file to hide scroll bar
     <>
-      <div className="fixed w-full h-screen inset-0 z-40 flex items-center justify-center cursor-auto">
+      <div className="fixed w-full h-screen inset-0 flex items-center justify-center cursor-auto z-[99999]">
         <div
           className="outline-none focus:outline-none bg-neutral-800/70 fixed w-full h-screen top-0 left-0"
           onClick={handleClose}
@@ -78,7 +82,11 @@ const Modal: React.FC<ModalProps> = ({
           className={`
       translate
       duration-300
-      w-[90%] h-[90vh] 800px:w-[55%] 800px:h-[90vh]
+      w-[90%] h-[90vh] ${
+        payment
+          ? "800px:w-[80%] 800px:h-[90vh] lg:w-[60%] "
+          : "800px:w-[55%] 800px:h-[90vh]"
+      } 800px:w-[55%] 800px:h-[90vh]
       relative flex flex-col mx-auto border-0
       rounded-lg shadow-lg
       bg-white outline-none focus:outline-none overflow-y-auto scrollBar-hidden
@@ -96,7 +104,7 @@ const Modal: React.FC<ModalProps> = ({
             <div className="text-lg font-semibold">{title}</div>
           </div>
           {/*body*/}
-          <div className="relative p-6 flex-auto">{body}</div>
+          <div className="relative p-6 flex-auto w-full">{body}</div>
           {/*footer*/}
           <div className="flex flex-col gap-2 p-6">
             <div className="flex flex-row items-center gap-4 w-full">
@@ -108,11 +116,13 @@ const Modal: React.FC<ModalProps> = ({
                   outline
                 />
               )}
-              <Button
-                disabled={disabled}
-                label={actionLabel}
-                onClick={handleSubmit}
-              />
+              {!dontShowButton && (
+                <Button
+                  disabled={disabled}
+                  label={actionLabel}
+                  onClick={handleSubmit}
+                />
+              )}
             </div>
             {footer}
           </div>

@@ -9,11 +9,12 @@ import {
   GiFireExtinguisher,
   GiFireplace,
   GiWashingMachine,
+  GiDrinkMe,
 } from "react-icons/gi";
 import { FaParking } from "react-icons/fa";
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { BiWifi } from "react-icons/bi";
-import { TbDog } from "react-icons/tb";
+import { TbDog, TbSmokingNo } from "react-icons/tb";
 import { BsSignNoParkingFill } from "react-icons/bs";
 import { BiFirstAid } from "react-icons/bi";
 import { WiSmoke } from "react-icons/wi";
@@ -25,7 +26,9 @@ import {
   MdOutdoorGrill,
   MdOutlineBalcony,
   MdOutlineFireplace,
+  MdOutlinePets,
 } from "react-icons/md";
+import { IoTrashOutline } from "react-icons/io5";
 
 export const perks = [
   {
@@ -154,4 +157,27 @@ export const safetyGuide = [
     label: "First aid",
     icon: BiFirstAid,
   },
+];
+
+export const houseRules = [
+  {
+    label: "No smoking",
+    icon: TbSmokingNo,
+  },
+  {
+    label: "No party",
+    icon: GiDrinkMe,
+  },
+  {
+    label: "No pet",
+    icon: MdOutlinePets,
+  },
+  {
+    label: "Throw away trash",
+    icon: IoTrashOutline,
+  },
+  // {
+  //   label: "First aid",
+  //   icon: BiFirstAid,
+  // },
 ];

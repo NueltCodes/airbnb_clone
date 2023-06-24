@@ -27,6 +27,7 @@ export async function POST(request: Request) {
       perks,
       amenities,
       safetyGuide,
+      houseRules,
     } = body;
 
     if (!title || !description || !category || !price) {
@@ -48,6 +49,7 @@ export async function POST(request: Request) {
         perks,
         amenities,
         safetyGuide,
+        houseRules,
         price: parseInt(price, 10),
         userId: currentUser.id,
       },

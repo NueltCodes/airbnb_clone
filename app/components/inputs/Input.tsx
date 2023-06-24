@@ -11,9 +11,11 @@ import { BiDollar } from "react-icons/bi";
 interface InputProps {
   id: string;
   label?: string;
-  type?: string | number;
+  subtitle?: boolean;
+  type?: "text" | "number" | "tel" | "password";
   disabled?: boolean;
   text?: boolean;
+  placeholder?: string;
   textarea?: boolean;
   formatPrice?: boolean;
   required?: boolean;
@@ -29,6 +31,7 @@ const Input: React.FC<InputProps> = ({
   type,
   disabled,
   text,
+  subtitle,
   formatPrice,
   register,
   required,
@@ -36,6 +39,7 @@ const Input: React.FC<InputProps> = ({
   watch,
   setValue,
   textarea,
+  placeholder,
 }) => {
   return (
     <div className="w-full relative">
@@ -81,8 +85,8 @@ const Input: React.FC<InputProps> = ({
           id={id}
           disabled={disabled}
           {...register(id, { required })}
-          placeholder=" "
-          type={type === "number" ? "number" : "text"}
+          placeholder={placeholder ? placeholder : ""}
+          type={type}
           className={`
              peer w-full p-4 pt-7 font-light bg-white border-2 rounded-md outline-none transition disabled:opacity-70 disabled:cursor-not-allowed
              ${formatPrice ? "pl-9" : "pl-4"}
@@ -108,6 +112,11 @@ const Input: React.FC<InputProps> = ({
       >
         {label}
       </label>
+      {subtitle && (
+        <div className="text-zinc-400">
+          State your profession, skill or trade
+        </div>
+      )}
     </div>
   );
 };

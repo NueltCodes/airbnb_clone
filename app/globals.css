@@ -15,6 +15,14 @@ body,
   z-index: 0 !important;
 }
 
+.rdrMonth {
+  width: 100% !important;
+}
+
+.rdrCalendarWrapper {
+  font-size: 16px !important;
+  width: 100% !important;
+}
 .scrollBar-hidden {
   /* Set a fixed height and width for the container */
   /* height: 300px;
@@ -26,6 +34,13 @@ body,
   scrollbar-color: transparent transparent;
 }
 
+.sticky-container {
+  position: sticky;
+  top: 100px; /* Adjust the value based on your layout */
+  height: 80vh; /* Set a fixed height to make the sticky component fully visible */
+  overflow-y: auto; /* Enable vertical scrolling if the content overflows */
+}
+
 .scrollBar-hidden::-webkit-scrollbar {
   /* Customize the scrollbar width and color */
   width: 6px;
@@ -35,4 +50,17 @@ body,
 .scrollBar-hidden::-webkit-scrollbar-thumb {
   /* Customize the scrollbar thumb color */
   background-color: transparent;
+}
+
+.user-menu-container {
+  /* Other styles */
+  transition: transform 5s ease;
+}
+
+.user-menu-container.open {
+  transform: translateX(0);
+}
+
+.user-menu-container.closed {
+  transform: translateX(-100%);
 }

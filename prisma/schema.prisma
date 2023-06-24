@@ -17,12 +17,21 @@ model User {
   emailVerified   DateTime?
   image           String?
   hashedPassword  String?
+  number          Int?
+  country         String?
+  state           String?
+  city            String?
+  job             String?
+  funFact         String?
+  language        String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   favoriteIds     String[] @db.ObjectId
 
+  reviews  Review[]
   accounts Account[]
   listings Listing[]
+  event Event[]
   reservations Reservation[]
 }
 
@@ -46,38 +55,86 @@ model Account {
 }
 
 model Listing {
-  id             String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  description String
-  imageSrc String
-  createdAt DateTime @default(now())
-  category  String
-  roomCount Int
-  bathroomCount Int
-  guestCount Int
-  checkOut String
-  checkIn String
-  locationValue String
-  userId String @db.ObjectId
-  price Int
-   perks         String[]
-  amenities      String[]
-  safetyGuide    String[]
-  otherSpace     String[]
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  title           String
+  description     String
+  imageSrc        String
+  createdAt       DateTime @default(now())
+  category        String
+  roomCount       Int
+  bathroomCount   Int
+  guestCount      Int
+  checkOut        String
+  checkIn         String
+  locationValue   String
+  userId          String @db.ObjectId
+  price           Int
+  ratings         Float?
 
+  perks           String[]
+  amenities       String[]
+  safetyGuide     String[]
+  houseRules      String[]
+
+  reviews        Review[]     // Array of Review objects
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reservations Reservation[]
+}
+model Event {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  title           String
+  description     String
+  imageSrc        String
+  createdAt       DateTime  @default(now())
+  category        String
+  roomCount       Int
+  bathroomCount   Int
+  guestCount      Int
+  checkOut        String
+  checkIn         String
+  locationValue   String
+  userId          String    @db.ObjectId
+  price           Int
+  discountPrice           Int
+  ratings         Float?
+
+  startDate       DateTime
+  endDate         DateTime
+  perks           String[]
+  amenities       String[]
+  safetyGuide     String[]
+  houseRules      String[]
+
+  reviews        Review[]     // Array of Review objects
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]
 }
 
+model Review {
+  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String      @db.ObjectId
+  rating           Int
+  comment          String
+  createdAt        DateTime    @default(now())
+  listingId        String      @map("_listingId") @db.ObjectId
+
+  user             User        @relation(fields: [userId], references: [id])
+  listing          Listing     @relation(fields: [listingId], references: [id])
+  event          Event     @relation(fields: [listingId], references: [id])
+}
+
+
+
 model Reservation {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  listingId String @db.ObjectId  
-  startDate DateTime
-  endDate DateTime
-  totalPrice Int
-  createdAt DateTime @default(now())
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String @db.ObjectId
+  listingId       String @db.ObjectId  
+  startDate       DateTime
+  endDate         DateTime
+  totalPrice      Int
+  createdAt       DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [listingId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
 }

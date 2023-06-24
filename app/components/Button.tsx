@@ -2,7 +2,7 @@
 import { IconType } from "react-icons/lib";
 
 interface ButtonProps {
-  label: string;
+  label: string | undefined;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   outline?: boolean;
@@ -24,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({
       className={`relative w-full disabled:opacity-70 disabled:cursor-not-allowed rounded-lg hover:opacity-80 transition ${
         outline
           ? "bg-white text-black border-black"
-          : "bg-rose-500 border-rose-500 text-white"
+          : "bg-[#0B3A2C] border-[#0B3A2C] text-white"
       } ${
         small
           ? "py-1 text-sm font-light border-[1px]"
