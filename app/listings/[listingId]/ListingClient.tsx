@@ -18,7 +18,6 @@ import { differenceInDays, eachDayOfInterval } from "date-fns";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Range } from "react-date-range";
-import PaymentModal from "@/app/components/modals/PaymentModal";
 import {
   CardCvcElement,
   CardExpiryElement,
@@ -34,7 +33,6 @@ import {
   safetyGuide,
 } from "@/app/components/modals/inputs";
 import PerksModal from "@/app/components/modals/PerksModal";
-import UserUpdateModal from "@/app/components/modals/UserUpdateModal";
 
 const initialDateRange = {
   startDate: new Date(),
@@ -181,7 +179,6 @@ const ListingClient: React.FC<ListingClientProps> = ({
                   <ListingReservation
                     listing={listing}
                     currentUser={currentUser}
-                    review={review}
                     price={listing.price}
                     totalPrice={totalPrice}
                     onChangeDate={(value) => setDateRange(value)}

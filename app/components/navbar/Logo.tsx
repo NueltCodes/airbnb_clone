@@ -21,9 +21,9 @@ const Logo: React.FC<ILogoProps> = ({ favorites, currentUser }) => {
         <div className="flex items-center">
           <GiPeaceDove className="text-gray-300" size={40} />
 
-          <div className="text-blue-600 font-bold hidden 800px:text-[25px]">
+          <div className="text-3xl sm:text-4xl font-bold mt-3 cursor-pointer text-[#591991] hidden 800px:block">
             Reserv
-            <span className="text-red-500 hidden 800px:text-[25px]">ə</span>
+            <span className=" text-[#0B3A2C]">ə</span>
           </div>
         </div>
       </div>

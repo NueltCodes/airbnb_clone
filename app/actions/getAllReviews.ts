@@ -12,43 +12,39 @@ export default async function getAllReviews(params: IParams) {
       query.userId = userId;
     }
 
-    // we first are to fetch the listings
     const listings = await prisma.listing.findMany({
       where: query,
-    });
-
-    const reviews: any[] = [];
-
-    //  Iterating over the listings and fetch reviews for each listing
-    for (const listing of listings) {
-      const listingReviews = await prisma.review.findMany({
-        where: {
-          listingId: listing.id,
-        },
-        include: {
-          user: {
-            select: {
-              name: true,
-              image: true,
+      include: {
+        reviews: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                image: true,
+              },
             },
           },
+          orderBy: {
+            createdAt: "desc",
+          },
         },
-        orderBy: {
-          createdAt: "desc",
-        },
-      });
+      },
+    });
 
-      reviews.push(
-        ...listingReviews.map((review) => ({
+    const safeReviews: any[] = [];
+
+    for (const listing of listings) {
+      for (const review of listing.reviews) {
+        safeReviews.push({
           ...review,
           createdAt: review.createdAt.toISOString(),
           userName: review.user?.name,
           userImage: review.user?.image,
-        }))
-      );
+        });
+      }
     }
 
-    return reviews;
+    return safeReviews;
   } catch (error) {
     throw new Error("Failed to fetch reviews");
   }

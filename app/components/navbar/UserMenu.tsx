@@ -10,7 +10,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import useRentModal from "@/app/hooks/useRentModal";
 import { signOut } from "next-auth/react";
 import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
-import useProfileUpdateModal from "@/app/hooks/useUserUpdateModal";
+import useUserUpdateModal from "@/app/hooks/useUserUpdateModal";
 import useEventsModal from "@/app/hooks/useEvents";
 import Search from "./Search";
 import { RxCross1 } from "react-icons/rx";
@@ -34,27 +34,13 @@ const UserMenu: React.FC<UserMenuProps> = ({
 }) => {
   const router = useRouter();
   const registerModal = useRegisterModal();
-  const updateProfile = useProfileUpdateModal();
+  const updateProfile = useUserUpdateModal();
   const createEvent = useEventsModal();
   const loginModal = useLoginModal();
   const rentModal = useRentModal();
   const [open, setOpen] = useState(false);
   const [activeRoute, setActiveRoute] = useState("");
-  const [mobileRoute, setMobileRoute] = useState("");
   const [isCreateEventOpen, setCreateEventOpen] = useState(false);
-  const [isRentOpen, setIsRentOpen] = useState(false);
-  const [isProfile, setIsProfileOpen] = useState(false);
-  const params = useSearchParams(); // Retrieve the query parameters
-
-  // useEffect(() => {
-  //   const locationValue = params?.get("locationValue");
-  //   setActiveRoute(locationValue || ""); // Set the active route based on the "locationValue" parameter
-
-  //   // Optionally, you can also update the mobileOpen state if needed
-  //   // setMobileOpen(false);
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [params]); // Run this effect only once on component mount
 
   const handleMenuItemClick = (route: string) => {
     router.push(route);
@@ -185,12 +171,12 @@ const UserMenu: React.FC<UserMenuProps> = ({
                     onClick={() => handleMenuItemClick("/properties")}
                   />
                   <MenuItem
-                    label="Create Events"
+                    label="Create events"
                     active={isCreateEventOpen}
                     onClick={() => handleCreateEventClick("Create Events")}
                   />
                   <MenuItem
-                    label="Host my home"
+                    label="Reserve home"
                     active={isActiveRoute("rent")}
                     onClick={() => onRent("rent")}
                   />
@@ -202,8 +188,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
                   />
                   <MenuItem
                     label="Profile"
-                    active={isActiveRoute("rent")}
-                    onClick={() => onRent("rent")}
+                    active={isActiveRoute("/userProfile")}
+                    onClick={() => handleMenuItemClick("/userProfile")}
                   />
                   <hr />
                   <MenuItem label="Logout" onClick={() => signOut()} />
@@ -320,12 +306,12 @@ const UserMenu: React.FC<UserMenuProps> = ({
                   />
                   <hr />
                   <MenuItem
-                    label="Reserve my space"
+                    label="Reserve home"
                     active={isActiveRoute("rent")}
                     onClick={() => onRent("rent")}
                   />
                   <MenuItem
-                    label="Create Events"
+                    label="Create events"
                     active={isActiveRoute("Create Events")}
                     onClick={() => handleCreateEventClick("Create Events")}
                   />
@@ -337,9 +323,10 @@ const UserMenu: React.FC<UserMenuProps> = ({
                   />
                   <MenuItem
                     label="Profile"
-                    active={isActiveRoute("updateProfile")}
-                    onClick={() => onRent("profile")}
+                    active={isActiveRoute("/userProfile")}
+                    onClick={() => handleMenuItemClick("/userProfile")}
                   />
+
                   <hr />
                   <MenuItem label="Logout" onClick={() => signOut()} />
                 </>

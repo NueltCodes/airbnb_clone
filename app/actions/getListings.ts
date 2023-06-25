@@ -9,6 +9,7 @@ export interface IListingsParams {
   endDate?: string;
   locationValue?: string;
   category?: string;
+  hostId?: string;
 }
 
 export default async function getListings(params: IListingsParams) {
@@ -22,12 +23,16 @@ export default async function getListings(params: IListingsParams) {
       startDate,
       endDate,
       category,
+      hostId,
     } = params;
 
     let query: any = {};
 
     if (userId) {
       query.userId = userId;
+    }
+    if (hostId) {
+      query.hostId = hostId;
     }
 
     if (category) {
@@ -77,6 +82,9 @@ export default async function getListings(params: IListingsParams) {
 
     const listings = await prisma.listing.findMany({
       where: query,
+      include: {
+        user: true,
+      },
       orderBy: {
         createdAt: "desc",
       },
@@ -85,6 +93,12 @@ export default async function getListings(params: IListingsParams) {
     const safeListings = listings.map((listing) => ({
       ...listing,
       createdAt: listing.createdAt.toISOString(),
+      user: {
+        ...listing.user,
+        createdAt: listing.user.createdAt.toString(),
+        updatedAt: listing.user.updatedAt.toString(),
+        emailVerified: listing.user.emailVerified?.toString() || null,
+      },
     }));
 
     return safeListings;

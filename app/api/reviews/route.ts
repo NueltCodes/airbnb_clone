@@ -96,7 +96,7 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { rating, comment, listingId, userId } = body;
 
-  if (!rating || !comment || !listingId || !userId) {
+  if (!rating || !listingId || !userId) {
     return NextResponse.error();
   }
 

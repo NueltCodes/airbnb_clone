@@ -1,20 +1,12 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 import { BiSearch } from "react-icons/bi";
 import { differenceInDays } from "date-fns";
 import useSearchModal from "@/app/hooks/useSearchModal";
 import useCountries from "@/app/hooks/useCountries";
-import { AiOutlineHeart, AiOutlineMenu } from "react-icons/ai";
-import { SafeListing, SafeUser } from "@/app/types";
-import useLoginModal from "@/app/hooks/useLoginModal";
 
-interface ISearchProps {
-  favorites?: SafeListing[] | null;
-  currentUser?: SafeUser[] | null;
-}
-
-const Search: React.FC<ISearchProps> = ({ favorites, currentUser }) => {
+const Search = () => {
   const searchModal = useSearchModal();
   const params = useSearchParams();
   const { getByValue } = useCountries();
@@ -23,17 +15,6 @@ const Search: React.FC<ISearchProps> = ({ favorites, currentUser }) => {
   const startDate = params?.get("startDate");
   const endDate = params?.get("endDate");
   const guestCount = params?.get("guestCount");
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
-  const loginModal = useLoginModal();
-
-  const handleMenuItemClick = (route: string) => {
-    if (!currentUser) {
-      return loginModal.onOpen();
-    }
-    router.push(route);
-    setOpen((value) => !value);
-  };
 
   const locationLabel = useMemo(() => {
     if (locationValue) {

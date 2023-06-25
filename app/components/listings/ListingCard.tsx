@@ -12,9 +12,12 @@ import HeartButton from "../HeartButton";
 import Button from "../Button";
 import ClientOnly from "../ClientOnly";
 import { categories } from "../navbar/Categories";
+import { TbBadgeFilled } from "react-icons/tb";
+import styles from "@/styles/styles";
+import Ratings from "../inputs/Ratings";
 
 interface ListingCardProps {
-  data: SafeListing;
+  data: SafeListing & { user?: SafeUser };
   reservation?: SafeReservation;
   onAction?: (id: string) => void;
   disabled?: boolean;
@@ -75,13 +78,14 @@ const ListingCard: React.FC<ListingCardProps> = ({
   }, [reservation]);
 
   return (
-    <div
-      onClick={() => router.push(`/listings/${data.id}`)}
-      className="col-span-1 cursor-pointer group"
-    >
-      <div className="flex flex-col gap-2 w-full">
-        <div
-          className="
+    <>
+      <div
+        onClick={() => router.push(`/listings/${data.id}`)}
+        className="col-span-1 cursor-pointer group"
+      >
+        <div className="flex flex-col gap-2 w-full">
+          <div
+            className="
             aspect-square 
             w-full sm:h-full 
             h-[40vh]
@@ -89,50 +93,63 @@ const ListingCard: React.FC<ListingCardProps> = ({
             overflow-hidden 
             rounded-xl
           "
-        >
-          <Image
-            fill
-            className="
+          >
+            <Image
+              fill
+              className="
               object-cover 
               h-full 
               w-full 
               group-hover:scale-110 
               transition
             "
-            src={data.imageSrc}
-            alt="Listing"
-          />
-          <div
-            className="
+              src={data.imageSrc}
+              alt="Listing"
+            />
+            <div
+              className="
             absolute
             top-3
             right-3
           "
-          >
-            <HeartButton listingId={data.id} currentUser={currentUser} />
+            >
+              <HeartButton listingId={data.id} currentUser={currentUser} />
+            </div>
           </div>
+          <div className="font-semibold text-lg">
+            {location?.region}, {location?.label}
+          </div>
+          <div className="flex">
+            <Ratings rating={data?.ratings} />
+          </div>
+          <div
+            className={`font-semibold pl-2 text-lg text-white flex gap-1 items-center p-1 rounded-br-lg w-[100px] bg-[#360c5b] ${styles.secondary_color}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              router.push(`/userProfile/${data?.userId}`);
+            }}
+          >
+            Host <TbBadgeFilled color="red" />
+          </div>
+          <div className="font-light text-neutral-500 flex items-center gap-1">
+            {!reservationDate && <span className="w-auto">{Icon}</span>}
+            {reservationDate || data.category}
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="font-semibold">${price}</div>
+            {!reservation && <div className="font-light">night</div>}
+          </div>
+          {onAction && actionLabel && (
+            <Button
+              disabled={disabled}
+              small
+              label={actionLabel}
+              onClick={handleCancel}
+            />
+          )}
         </div>
-        <div className="font-semibold text-lg">
-          {location?.region}, {location?.label}
-        </div>
-        <div className="font-light text-neutral-500 flex items-center gap-1">
-          {!reservationDate && <span className="w-auto">{Icon}</span>}
-          {reservationDate || data.category}
-        </div>
-        <div className="flex items-center gap-1">
-          <div className="font-semibold">${price}</div>
-          {!reservation && <div className="font-light">night</div>}
-        </div>
-        {onAction && actionLabel && (
-          <Button
-            disabled={disabled}
-            small
-            label={actionLabel}
-            onClick={handleCancel}
-          />
-        )}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -7,27 +7,17 @@ import Calendar from "../inputs/Calendar";
 import usePaymentModalModal from "@/app/hooks/usePaymentModal";
 import styles from "@/styles/styles";
 import { useCallback, useState } from "react";
-import {
-  SafeListing,
-  SafeReservation,
-  SafeReviews,
-  SafeUser,
-} from "@/app/types";
-import { RxCross1 } from "react-icons/rx";
-import Image from "next/image";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { SafeListing, SafeUser } from "@/app/types";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import Ratings from "../inputs/Ratings";
 
 interface ListingReservationProps {
   listing: SafeListing & { user: SafeUser };
   price: number;
   currentUser?: SafeUser | null;
   dateRange: Range;
-  review?: SafeReviews[];
   totalPrice: number;
   onChangeDate: (value: Range) => void;
   onSubmit: () => void;
@@ -40,7 +30,6 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
   price,
   dateRange,
   totalPrice,
-  review,
   onChangeDate,
   onSubmit,
   disabled,
