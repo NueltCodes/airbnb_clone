@@ -70,16 +70,16 @@ const Comments: React.FC<IComments> = ({
       {review && review.length > 0 && (
         <div className="w-full min-h-[40vh] border border-neutral-300 p-2 rounded-lg flex flex-col items-center py-3 overflow-y-scroll">
           {review.map((rev) => (
-            <div key={rev.id} className="w-full flex my-2">
+            <div key={rev.id} className="w-full flex items-start my-2">
               <Image
-                src={rev.user.image}
+                src={rev.user?.image}
                 alt="User Image"
-                width="50"
-                height="50"
+                width="45"
+                height="45"
                 className="rounded-full"
               />
               <div className="pl-2">
-                <div className="w-full flex items-center">
+                <div className="flex-col flex sm:flex-row w-full sm:items-center items-start">
                   <h1 className="font-[500] mr-3">{rev.user.name}</h1>
                   <Ratings rating={rev.rating} />
                 </div>

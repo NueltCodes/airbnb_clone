@@ -95,13 +95,13 @@ const UserProfileData: React.FC<ProfileDataProps> = ({
                 {listing.userId === currentUser?.id ? (
                   <div>
                     <h5 className="w-full text-center py-5 text-[18px]">
-                      No home kept for reservation yet!
+                      You have kept no home for reservation yet!
                     </h5>
 
                     <div className="w-48 mt-4">
                       <Button
                         outline
-                        label="Reserve"
+                        label="Reserve your home?"
                         onClick={rentModal.onOpen}
                       />
                     </div>
@@ -131,7 +131,7 @@ const UserProfileData: React.FC<ProfileDataProps> = ({
           </div>
           {events && events.length === 0 && (
             <h5 className="w-full text-center py-5 text-[18px]">
-              No Events created for this by this Host yet!
+              No events created yet this Host!
             </h5>
           )}
         </div>
@@ -140,7 +140,7 @@ const UserProfileData: React.FC<ProfileDataProps> = ({
       {active === 3 && Array.isArray(reviews) && (
         <div className="w-full">
           {reviews.map((item, index) => (
-            <div className="w-full flex my-4" key={index}>
+            <div className="w-full flex items-start my-3" key={index}>
               <Image
                 src={item.user.image}
                 alt="User Image"
@@ -149,14 +149,11 @@ const UserProfileData: React.FC<ProfileDataProps> = ({
                 className="rounded-full"
               />
               <div className="pl-2">
-                <div className="flex w-full items-center">
+                <div className="flex-col flex sm:flex-row w-full sm:items-center items-start">
                   <h1 className="font-semibold pr-2">{item.user.name}</h1>
                   <Ratings rating={item.rating} />
                 </div>
                 <p className="font-normal text-[#000000a7]">{item?.comment}</p>
-                <p className="text-[#000000a7] text-[14px]">
-                  {item.user.createdAt?.slice(0, 10)}
-                </p>
               </div>
             </div>
           ))}

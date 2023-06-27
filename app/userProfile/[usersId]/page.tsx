@@ -10,11 +10,11 @@ import Container from "../../components/Container";
 import getUserListings from "@/app/actions/getUserListings";
 
 interface IParams {
-  userId: IListingsParams;
+  searchParams: IListingsParams;
 }
 
-const UserProfile = async ({ userId }: IParams) => {
-  const listings = await getUserListings(userId);
+const UserProfile = async ({ searchParams }: IParams) => {
+  const listings = await getUserListings(searchParams);
   const listingsLength = listings.length;
 
   const currentUser = await getCurrentUser();
@@ -28,15 +28,15 @@ const UserProfile = async ({ userId }: IParams) => {
 
   try {
     const [reviews, events] = await Promise.all([
-      getAllReviews({ userId: currentUser.id }),
-      getAllEvents(userId),
+      getAllReviews(searchParams),
+      getAllEvents(searchParams),
     ]);
 
-    if (listings.length === 0) {
+    if (listings?.length === 0) {
       listings.map((listing) => {
         return (
           <div key={listing.id}>
-            {listing.userId === userId ? (
+            {listing?.userId === searchParams ? (
               <ClientOnly>
                 <EmptyState
                   title="No properties found"

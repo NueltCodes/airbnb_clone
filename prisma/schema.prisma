@@ -105,13 +105,12 @@ model Event {
   safetyGuide     String[]
   houseRules      String[]
 
-  reviews        Review[]     // Array of Review objects
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]
 }
 
 model Review {
-  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
   userId           String      @db.ObjectId
   rating           Int
   comment          String
@@ -120,7 +119,6 @@ model Review {
 
   user             User        @relation(fields: [userId], references: [id])
   listing          Listing     @relation(fields: [listingId], references: [id])
-  event          Event     @relation(fields: [listingId], references: [id])
 }
 
 

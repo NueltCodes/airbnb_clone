@@ -4,7 +4,7 @@ import React from "react";
 import { RxPerson } from "react-icons/rx";
 
 interface AvatarProps {
-  src?: string | null | undefined;
+  src?: string | null;
 }
 
 const Avatar: React.FC<AvatarProps> = ({ src }) => {

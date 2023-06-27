@@ -3,7 +3,11 @@
 import { Toaster } from "react-hot-toast";
 
 const ToasterProvider = () => {
-  return <Toaster />;
+  return (
+    <div className="z-50">
+      <Toaster />
+    </div>
+  );
 };
 
 export default ToasterProvider;

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
 import getCurrentUser from "@/app/actions/getCurrentUser";
+import { Prisma } from "@prisma/client";
 
 // Create a review for a listing
 export async function createReview(
@@ -10,43 +11,22 @@ export async function createReview(
   userId: string
 ) {
   try {
-    const existingReview = await prisma.review.findFirst({
-      where: {
-        listingId,
-        userId,
+    const newReview = await prisma.review.create({
+      data: {
+        rating,
+        comment,
+        listing: {
+          connect: { id: listingId },
+        },
+        user: {
+          connect: { id: userId },
+        },
       },
     });
 
-    if (existingReview) {
-      const updatedReview = await prisma.review.update({
-        where: {
-          id: existingReview.id,
-        },
-        data: {
-          rating,
-          comment,
-        },
-      });
-
-      return updatedReview;
-    } else {
-      const newReview = await prisma.review.create({
-        data: {
-          rating,
-          comment,
-          listing: {
-            connect: { id: listingId },
-          },
-          user: {
-            connect: { id: userId },
-          },
-        },
-      });
-
-      return newReview;
-    }
+    return newReview;
   } catch (error) {
-    throw new Error("Failed to create or update review");
+    throw new Error("Failed to create review");
   }
 }
 

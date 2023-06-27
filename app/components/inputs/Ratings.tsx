@@ -15,8 +15,8 @@ const Ratings: React.FC<IRating> = ({ rating }) => {
         <AiFillStar
           key={i}
           size={20}
-          color="#f6b100"
-          className="mr-2 cursor-pointer"
+          color="#fac011"
+          className="mr-2  cursor-pointer"
         />
       );
     } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {

@@ -15,6 +15,7 @@ import { categories } from "../navbar/Categories";
 import { TbBadgeFilled } from "react-icons/tb";
 import styles from "@/styles/styles";
 import Ratings from "../inputs/Ratings";
+import { AiFillStar, AiOutlineEye, AiOutlineStar } from "react-icons/ai";
 
 interface ListingCardProps {
   data: SafeListing & { user?: SafeUser };
@@ -123,13 +124,31 @@ const ListingCard: React.FC<ListingCardProps> = ({
             <Ratings rating={data?.ratings} />
           </div>
           <div
-            className={`font-semibold pl-2 text-lg text-white flex gap-1 items-center p-1 rounded-br-lg w-[100px] bg-[#360c5b] ${styles.secondary_color}`}
+            className={`font-semibold pl-2 text-sm text-black flex gap-1 items-center p-1 rounded-br-lg w-[118px] bg-white shadow-md ${styles.secondary_color}`}
             onClick={(e) => {
               e.stopPropagation();
               router.push(`/userProfile/${data?.userId}`);
             }}
           >
-            Host <TbBadgeFilled color="red" />
+            Host{" "}
+            <div>
+              <AiOutlineEye
+                size={18}
+                className="cursor-pointer"
+                color="#333"
+                title="Profile"
+              />
+            </div>
+            <div>
+              {data.ratings && (
+                <AiOutlineStar
+                  size={18}
+                  color="#f6ba00"
+                  className="cursor-pointer"
+                />
+              )}
+            </div>
+            <span className="text-xs">{data.ratings}</span>
           </div>
           <div className="font-light text-neutral-500 flex items-center gap-1">
             {!reservationDate && <span className="w-auto">{Icon}</span>}

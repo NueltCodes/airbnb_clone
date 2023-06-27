@@ -7,6 +7,7 @@ import styles from "@/styles/styles";
 import { signOut } from "next-auth/react";
 import useUserUpdateModal from "../../hooks/useUserUpdateModal";
 import CountryData from "../../CountryData.json";
+import { AiFillStar } from "react-icons/ai";
 
 interface ProfileInfoProps {
   currentUser?: SafeUser | null;
@@ -106,7 +107,10 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({
         </div>
         <div className="p-3">
           <h5 className="font-semibold">Home Ratings</h5>
-          <h4 className="text-[#000000b0]">{averageRating}/5</h4>
+          <h4 className="text-[#000000b0] flex items-center">
+            <AiFillStar size={20} color="" className="mr-1 cursor-pointer" />
+            <span className="">{averageRating}/5</span>
+          </h4>
         </div>
         <div className="p-3">
           <h5 className="font-semibold">Joined On</h5>

@@ -43,11 +43,12 @@ const LoginModal = () => {
       reset();
       if (callback?.ok) {
         toast.success("Logged in");
-        router.refresh();
         loginModal.onClose();
+        router.refresh();
       }
       if (callback?.error) {
-        toast.error(callback.error);
+        loginModal.onClose();
+        toast.error("Wrong credentials");
       }
     });
   };

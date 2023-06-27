@@ -1,15 +1,15 @@
 import prisma from "@/app/libs/prismadb";
 
 interface IParams {
-  userId?: string;
+  searchParams?: string;
 }
 export default async function getUserListings(params: IParams) {
   try {
-    const { userId } = params;
+    const { searchParams } = params;
 
     const listings = await prisma.listing.findMany({
       where: {
-        userId: userId,
+        userId: searchParams,
       },
       include: {
         user: true,
